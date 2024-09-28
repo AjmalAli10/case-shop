@@ -4,8 +4,31 @@
 import { useRef, useState, useEffect } from "react";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { useInView } from "framer-motion";
-import { cn, PHONES, splitArray } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import Phone from "./Phone";
+
+const PHONES = [
+  "/testimonials/1.jpg",
+  "/testimonials/2.jpg",
+  "/testimonials/3.jpg",
+  "/testimonials/4.jpg",
+  "/testimonials/5.jpg",
+  "/testimonials/6.jpg",
+];
+
+function splitArray(array, numParts) {
+  const result = [];
+
+  for (let i = 0; i < array.length; i++) {
+    const index = i % numParts;
+    if (!result[index]) {
+      result[index] = [];
+    }
+    result[index].push(array[i]);
+  }
+
+  return result;
+}
 
 function ReviewColumn({
   reviews,
