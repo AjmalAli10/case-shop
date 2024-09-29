@@ -108,6 +108,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
     const blob = new Blob([byteArray], { type: contentType });
     return blob;
   };
+
   return (
     <div className="relative mt-20 grid grid-cols-1 lg:grid-cols-3 mb-20 pb-20">
       <div

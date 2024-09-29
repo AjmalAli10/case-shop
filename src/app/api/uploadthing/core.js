@@ -33,7 +33,7 @@ export const ourFileRouter = {
 
         if (!configId) {
           const configuration = await createImage({
-            imageurl: file.url,
+            imageUrl: file.url,
             height: height || 500,
             width: width || 500,
           });
