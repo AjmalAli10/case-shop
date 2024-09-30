@@ -11,11 +11,10 @@ const Page = async ({ searchParams }) => {
 
   //make  db call
   const configuration = await getImageById(id);
-  console.log("configuration", configuration);
+
   if (!configuration) {
     return notFound();
   }
-  console.log("configuration", configuration);
   const { imageUrl, height, width } = configuration;
   return (
     <DesignConfigurator

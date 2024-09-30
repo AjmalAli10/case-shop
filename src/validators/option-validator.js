@@ -3,6 +3,7 @@
 // bg-zinc-950 border-zinc-950
 
 import { PRODUCT_PRICES } from "@/config/products";
+import { z } from "zod";
 
 export const COLORS = [
   { label: "Black", value: "black", tw: "zinc-900" },
@@ -13,7 +14,10 @@ export const COLORS = [
   },
   { label: "Rose", value: "rose", tw: "rose-950" },
 ];
-
+// Define Zod schema for validation
+export const ColorSchema = z.object({
+  color: z.enum(COLORS.map((c) => c.value)),
+});
 export const MODELS = {
   name: "models",
   options: [
@@ -44,6 +48,11 @@ export const MODELS = {
   ],
 };
 
+// Define Zod schema for models
+export const ModelSchema = z.object({
+  model: z.enum(MODELS.options.map((m) => m.value)),
+});
+
 export const MATERIALS = {
   name: "material",
   options: [
@@ -62,6 +71,9 @@ export const MATERIALS = {
   ],
 };
 
+export const MaterialSchema = z.object({
+  material: z.enum(MATERIALS.options.map((m) => m.value)),
+});
 export const FINISHES = {
   name: "finish",
   options: [
@@ -79,3 +91,16 @@ export const FINISHES = {
     },
   ],
 };
+
+export const FinishSchema = z.object({
+  finish: z.enum(FINISHES.options.map((f) => f.value)),
+});
+
+// Combine all schemas for full validation
+
+export const OptionValidatorSchema = z.object({
+  color: ColorSchema.shape.color,
+  model: ModelSchema.shape.model,
+  material: MaterialSchema.shape.material,
+  finish: FinishSchema.shape.finish,
+});

@@ -65,21 +65,18 @@ export async function updateCroppedImageUrl(imageId, croppedImageUrl) {
   }
 }
 
-// Update an image by ID
-export async function updateImage(imageId, updateData) {
-  const { imageUrl, height, width, croppedImageUrl } = updateData;
-
+// Update an Configuration by ID
+export async function updateConfiguration(imageId, updateData) {
   try {
-    return await prisma.image.update({
-      // Changed to prisma.image
+    const updatedConfig = await prisma.image.update({
       where: { id: imageId },
       data: {
-        imageUrl,
-        height,
-        width,
-        croppedImageUrl,
+        // Spread the updateData object to allow dynamic updates
+        ...updateData,
       },
     });
+    console.log("updatedConfig from db call", updatedConfig);
+    return updatedConfig;
   } catch (error) {
     console.error(`Error updating image with ID ${imageId}:`, error.message);
     throw new Error("Failed to update image");

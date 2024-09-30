@@ -43,6 +43,7 @@ export const ourFileRouter = {
             configId,
             file.url
           );
+          console.log("updatedConfiguration from core", updatedConfiguration);
           return { configId: updatedConfiguration.id };
         }
       } catch (error) {

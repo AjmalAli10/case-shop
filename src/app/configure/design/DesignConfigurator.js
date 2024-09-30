@@ -28,8 +28,28 @@ import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 import { useUploadThing } from "@/lib/uploadThing";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { saveConfig as _saveConfig } from "./actions";
+import { useRouter } from "next/navigation";
 const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
   const { toast } = useToast();
+  const router = useRouter();
+  const { mutate: saveConfig } = useMutation({
+    mutationKey: ["save-config"],
+    mutationFn: async (args) => {
+      return await Promise.all([saveConfiguration(), _saveConfig(args)]);
+    },
+    onError: () => {
+      toast({
+        title: "Something went wrong",
+        description: "The configuration could not be saved. Please try again!",
+        variant: "destructive",
+      });
+    },
+    onSuccess: () => {
+      router.push(`/configure/preview?id=${configId}`);
+    },
+  });
   const [options, setOptions] = useState({
     color: COLORS[0],
     model: MODELS.options[0],
@@ -88,7 +108,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
       const blob = base64TOBlob(base64Data, "image/png");
       const file = new File([blob], "image.png", { type: "image/png" });
 
-      startUpload([file], { configId });
+      await startUpload([file], { configId });
     } catch (err) {
       toast({
         title: "Something went wrong",
@@ -345,7 +365,15 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
                   )}
                 </p>{" "}
                 <Button
-                  onClick={saveConfiguration}
+                  onClick={() =>
+                    saveConfig({
+                      configId,
+                      color: options.color.value,
+                      finish: options.finish.value,
+                      material: options.material.value,
+                      model: options.model.value,
+                    })
+                  }
                   size="sm"
                   className="w-full mt-16"
                 >
