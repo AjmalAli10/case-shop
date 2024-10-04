@@ -1,4 +1,4 @@
-import { getImageById } from "@/db";
+import { getImageById } from "@/db/configureDB";
 import { notFound } from "next/navigation";
 import DesignConfigurator from "./DesignConfigurator";
 

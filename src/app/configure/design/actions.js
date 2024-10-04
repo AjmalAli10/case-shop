@@ -1,6 +1,6 @@
 "use server";
 
-import { updateConfiguration } from "@/db";
+import { updateConfiguration } from "@/db/configureDB";
 import { OptionValidatorSchema } from "@/validators/option-validator";
 
 export async function saveConfig({ color, finish, material, model, configId }) {

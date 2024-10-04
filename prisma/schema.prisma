@@ -7,6 +7,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum OrderStatus {
+  fulfilled
+  shipped
+  awaiting_shipment
+}
+
 enum PhoneModel {
   iphonex
   iphone11
@@ -32,7 +38,7 @@ enum CaseColor {
   rose
 }
 
-model Image {
+model Configuration {
   id              String        @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   imageUrl        String
   height          Int
@@ -43,4 +49,55 @@ model Image {
   finish          CaseFinish?
   croppedImageUrl String?
   createdAt       DateTime?     @default(now()) @db.Timestamptz(6)
+  order           Order[]
+}
+
+model User {
+  id    String  @id @default(cuid())
+  email String
+  order Order[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  configurationId String        @db.Uuid
+  configuration   Configuration @relation(fields: [configurationId], references: [id])
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  amount          Float
+  isPaid          Boolean       @default(false)
+  status          OrderStatus   @default(awaiting_shipment)
+
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  shippingAddressId String?
+  billingAddress    BillingAddress?  @relation(fields: [billingAddressId], references: [id])
+  billingAddressId  String?
+
+  createdAt DateTime @default(now())
+  updated   DateTime @updatedAt
+}
+
+model ShippingAddress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  country     String
+  state       String
+  phoneNumber String?
+  orders      Order[]
+}
+
+model BillingAddress {
+  id          String  @id @default(cuid())
+  name        String
+  street      String
+  city        String
+  country     String
+  state       String
+  phoneNumber String?
+  orders      Order[]
 }

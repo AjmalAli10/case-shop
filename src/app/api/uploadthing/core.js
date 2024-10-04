@@ -1,4 +1,4 @@
-import { createImage, updateCroppedImageUrl } from "@/db";
+import { createImage, updateCroppedImageUrl } from "@/db/configureDB";
 import { Pool } from "pg";
 import sharp from "sharp";
 import { createUploadthing } from "uploadthing/next";
