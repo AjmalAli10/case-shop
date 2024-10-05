@@ -1,6 +1,4 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+import prisma from "./prismaClient";
 
 // Create a new image
 export async function createImage(imageData) {

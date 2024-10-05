@@ -1,16 +1,14 @@
-const { PrismaClient } = require("@prisma/client");
-
-const prisma = new PrismaClient();
+import prisma from "./prismaClient";
 
 export async function createOrder(orderData) {
-  const { amount, userId, configurationId, status } = orderData;
+  const { amount, userId, configurationId } = orderData;
+
   try {
     const newOrder = await prisma.order.create({
       data: {
         amount,
         userId,
         configurationId,
-        status,
       },
     });
     return newOrder;
@@ -20,7 +18,7 @@ export async function createOrder(orderData) {
   }
 }
 
-export async function existingOrder(userId, configurationId) {
+export async function getExistingOrder(userId, configurationId) {
   try {
     const existingOrder = await prisma.order.findFirst({
       where: {
