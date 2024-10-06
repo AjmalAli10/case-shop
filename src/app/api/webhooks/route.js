@@ -1,7 +1,13 @@
+import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
 import { updateOrder } from "@/db/orderDB";
+import { stripe } from "@/lib/stripe";
+import { headers } from "next/headers";
 import { NextResponse } from "next/server";
+// import { Resend } from "resend";
 
-export async function POST(request) {
+// const resend = new Resend(process.env.RESEND_API_KEY);
+
+export async function POST(req) {
   try {
     const body = await req.text();
     const signature = headers().get("stripe-signature");
@@ -15,6 +21,7 @@ export async function POST(request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET
     );
+
     if (event.type === "checkout.session.completed") {
       if (!event.data.object.customer_details?.email) {
         throw new Error("Missing user email");
@@ -34,11 +41,35 @@ export async function POST(request) {
       const billingAddress = session.customer_details.address;
       const shippingAddress = session.shipping_details.address;
 
-      await updateOrder(orderId, session, shippingAddress, billingAddress);
+      const updatedOrder = await updateOrder(
+        orderId,
+        session,
+        shippingAddress,
+        billingAddress
+      );
 
-      return NextResponse.json({ result: event, ok: true });
+      //   await resend.emails.send({
+      //     from: "CaseCobra <hello@joshtriedcoding.com>",
+      //     to: [event.data.object.customer_details.email],
+      //     subject: "Thanks for your order!",
+      //     react: OrderReceivedEmail({
+      //       orderId,
+      //       orderDate: updatedOrder.createdAt.toLocaleDateString(),
+      //       // @ts-ignore
+      //       shippingAddress: {
+      //         name: session.customer_details.name,
+      //         city: shippingAddress.city,
+      //         country: shippingAddress.country,
+      //         postalCode: shippingAddress.postal_code,
+      //         street: shippingAddress.line1,
+      //         state: shippingAddress.state,
+      //       },
+      //     }),
+      //   });
     }
-  } catch (error) {
+
+    return NextResponse.json({ result: event, ok: true });
+  } catch (err) {
     console.error(err);
 
     return NextResponse.json(
@@ -46,24 +77,4 @@ export async function POST(request) {
       { status: 500 }
     );
   }
-  //   try {
-  //     const rawBody = await request.text();
-  //     const ts = request.headers.get("x-webhook-timestamp");
-  //     const signature = request.headers.get("x-webhook-signature");
-
-  //     console.log("rawBody:", rawBody);
-  //     console.log("ts:", ts);
-  //     console.log("expected signature:", signature);
-
-  //     const genSignature = verify(ts, rawBody);
-  //     console.log("genSignature:", genSignature);
-  //     if (signature === genSignature) {
-  //       return new NextResponse("OK", { status: 200 });
-  //     } else {
-  //       return new NextResponse("Failed", { status: 400 });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error processing webhook:", error);
-  //     return new NextResponse("Internal Server Error", { status: 500 });
-  //   }
 }

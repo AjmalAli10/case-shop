@@ -36,7 +36,7 @@ export async function updateOrder(
           city: shippingAddress.city,
           country: shippingAddress.country,
           postalCode: shippingAddress.postal_code,
-          street: shippingAddress.line1,
+          street: shippingAddress.line1 ?? shippingAddress.line2,
           state: shippingAddress.state,
         },
       },
@@ -46,7 +46,7 @@ export async function updateOrder(
           city: billingAddress.city,
           country: billingAddress.country,
           postalCode: billingAddress.postal_code,
-          street: billingAddress.line1,
+          street: billingAddress.line1 ?? billingAddress.line2,
           state: billingAddress.state,
         },
       },
@@ -63,6 +63,27 @@ export async function getExistingOrder(userId, configurationId) {
     });
 
     return existingOrder;
+  } catch (error) {
+    console.error("Error fetching orders:", error.message);
+    throw new Error("Failed to fetch orders");
+  }
+}
+
+export async function getOrdersByUserAndOrderId(userId, orderId) {
+  try {
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: userId,
+        id: orderId,
+      },
+      include: {
+        billingAddress: true,
+        configuration: true,
+        shippingAddress: true,
+        user: true,
+      },
+    });
+    return orders;
   } catch (error) {
     console.error("Error fetching orders:", error.message);
     throw new Error("Failed to fetch orders");

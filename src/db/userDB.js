@@ -5,7 +5,7 @@ export const createUser = async (user) => {
   try {
     await prisma.user.create({
       data: {
-        userId,
+        id: userId,
         email,
       },
     });
