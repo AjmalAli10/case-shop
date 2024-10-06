@@ -1,4 +1,4 @@
-import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
+// import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
 import { updateOrder } from "@/db/orderDB";
 import { stripe } from "@/lib/stripe";
 import { headers } from "next/headers";
