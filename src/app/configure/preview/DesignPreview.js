@@ -15,6 +15,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import LoginModal from "@/components/LoginModal";
+import { useRef } from "react";
 const { default: Confetti } = require("react-dom-confetti");
 
 const DesignPreview = ({ configuration }) => {
@@ -23,7 +24,18 @@ const DesignPreview = ({ configuration }) => {
   const [showConfetti, setShowConfetti] = useState(false);
   const { user } = useKindeBrowserClient();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  // const sdkInitialized = useRef(false);
   useEffect(() => setShowConfetti(true), [showConfetti]);
+
+  //TODO: i will add this when using cashfree
+  // useEffect(() => {
+  //   if (!sdkInitialized.current) {
+  //     // Initialize SDK only if it hasn't been initialized
+  //     console.log("useEffect triggered - checking SDK initialization");
+  //     initializeSDK();
+  //     sdkInitialized.current = true; // Mark as initialized
+  //   }
+  // }, []);
 
   const { color, model, finish, material } = configuration;
   const { id } = configuration;
@@ -44,8 +56,10 @@ const DesignPreview = ({ configuration }) => {
   const { mutate: createPaymentSession } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
-    onSuccess: ({ url }) => {
-      console.log("url", url);
+    onSuccess: async ({ url }) => {
+      // if (paymentSessionId) {
+      //   await doPayment({ paymentSessionId: paymentSessionId });
+      // }
       if (url) router.push(url);
       else throw new Error("Unable to retrieve payment URL.");
     },
@@ -68,6 +82,7 @@ const DesignPreview = ({ configuration }) => {
       setIsLoginModalOpen(true);
     }
   };
+
   return (
     <>
       <div

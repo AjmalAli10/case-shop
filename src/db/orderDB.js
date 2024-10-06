@@ -18,6 +18,41 @@ export async function createOrder(orderData) {
   }
 }
 
+export async function updateOrder(
+  orderId,
+  session,
+  shippingAddress,
+  billingAddress
+) {
+  return await prisma.order.update({
+    where: {
+      id: orderId,
+    },
+    data: {
+      isPaid: true,
+      shippingAddress: {
+        create: {
+          name: session.customer_details.name,
+          city: shippingAddress.city,
+          country: shippingAddress.country,
+          postalCode: shippingAddress.postal_code,
+          street: shippingAddress.line1,
+          state: shippingAddress.state,
+        },
+      },
+      billingAddress: {
+        create: {
+          name: session.customer_details.name,
+          city: billingAddress.city,
+          country: billingAddress.country,
+          postalCode: billingAddress.postal_code,
+          street: billingAddress.line1,
+          state: billingAddress.state,
+        },
+      },
+    },
+  });
+}
 export async function getExistingOrder(userId, configurationId) {
   try {
     const existingOrder = await prisma.order.findFirst({
