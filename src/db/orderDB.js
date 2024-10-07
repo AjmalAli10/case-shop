@@ -56,7 +56,7 @@ export async function updateOrder(
 
     return updatedOrder;
   } catch (error) {
-    console.error("Error updating order:", error.message);
+    console.error("Error updating order:", error);
     throw new Error("Failed to update order", error);
   }
 }

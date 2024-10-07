@@ -60,7 +60,7 @@ export async function POST(req) {
           const billingAddress = session.customer_details.address;
           const shippingAddress = session.shipping_details.address;
 
-          // await updateOrder(orderId, session, shippingAddress, billingAddress);
+          await updateOrder(orderId, session, shippingAddress, billingAddress);
           console.log("Checkout completed:", session.id);
           // Add your business logic here
           break;
