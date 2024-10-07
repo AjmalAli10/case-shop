@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
+import { updateOrder } from "@/db/orderDB";
 
 let stripe;
 try {
@@ -44,7 +45,27 @@ export async function POST(req) {
     try {
       switch (event.type) {
         case "checkout.session.completed":
+          if (!event.data.object.customer_details?.email) {
+            throw new Error("Missing user email");
+          }
           const session = event.data.object;
+
+          const { userId, orderId } = session.metadata || {
+            userId: null,
+            orderId: null,
+          };
+          if (!userId || !orderId) {
+            throw new Error("Invalid request metadata");
+          }
+          const billingAddress = session.customer_details.address;
+          const shippingAddress = session.shipping_details.address;
+
+          const updatedOrder = await updateOrder(
+            orderId,
+            session,
+            shippingAddress,
+            billingAddress
+          );
           console.log("Checkout completed:", session.id);
           // Add your business logic here
           break;
@@ -52,6 +73,7 @@ export async function POST(req) {
         default:
           console.warn(`Unhandled relevant event: ${event.type}`);
       }
+      return NextResponse.json({ result: event, ok: true });
     } catch (error) {
       console.error("Webhook handler failed:", error.message);
       return new Response(`Webhook handler failed: ${error.message}`, {
@@ -59,6 +81,4 @@ export async function POST(req) {
       });
     }
   }
-
-  return NextResponse.json({ received: true });
 }
