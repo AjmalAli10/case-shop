@@ -2,10 +2,14 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
-  apiVersion: "2024-09-30.acacia",
-  typescript: false,
-});
+let stripe;
+try {
+  stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "", {
+    apiVersion: "2024-09-30.acacia",
+  });
+} catch (err) {
+  console.error("Failed to initialize Stripe:", err.message);
+}
 
 const relevantEvents = new Set([
   "checkout.session.completed",
@@ -13,18 +17,23 @@ const relevantEvents = new Set([
 ]);
 
 export async function POST(req) {
+  if (!stripe) {
+    console.error("Stripe is not initialized");
+    return new Response("Stripe configuration error", { status: 500 });
+  }
+
   const body = await req.text();
   const headersList = headers();
   const sig = headersList.get("Stripe-Signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
-  let event;
 
+  if (!sig || !webhookSecret) {
+    console.error("Webhook Secret or Signature missing");
+    return new Response("Webhook Secret or Signature missing", { status: 400 });
+  }
+
+  let event;
   try {
-    if (!sig || !webhookSecret) {
-      return new Response("Webhook Secret or Signature missing", {
-        status: 400,
-      });
-    }
     event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err) {
     console.error(`❌ Error message: ${err.message}`);
@@ -36,12 +45,9 @@ export async function POST(req) {
       switch (event.type) {
         case "checkout.session.completed":
           const session = event.data.object;
-          // Handle the checkout.session.completed event
           console.log("Checkout completed:", session.id);
           // Add your business logic here
           break;
-
-        // Add cases for other event types as needed
 
         default:
           console.warn(`Unhandled relevant event: ${event.type}`);
