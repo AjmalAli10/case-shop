@@ -43,7 +43,7 @@ export const createCheckoutSession = async ({ configId }) => {
     // };
   } else {
     order = await createOrder({
-      amount: price / 100,
+      amount: price,
       userId: user.id,
       configurationId: configId,
     });

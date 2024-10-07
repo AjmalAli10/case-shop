@@ -69,8 +69,8 @@ const ThankYou = () => {
               You made a great choice!
             </h4>
             <p className="mt-2 text-sm text-zinc-600">
-              We at CaseCobra believe that a phone case doesn&apos;t only need
-              to look good, but also last you for the years to come. We offer a
+              We at CaseShop believe that a phone case doesn&apos;t only need to
+              look good, but also last you for the years to come. We offer a
               5-year print guarantee: If you case isn&apos;t of the highest
               quality, we&apos;ll replace it for free.
             </p>
@@ -93,7 +93,7 @@ const ThankYou = () => {
                   <span className="block">{shippingAddress?.name}</span>
                   <span className="block">{shippingAddress?.street}</span>
                   <span className="block">
-                    {shippingAddress?.postalCode} {shippingAddress?.city}
+                    {shippingAddress?.pinCode} {shippingAddress?.city}
                   </span>
                 </address>
               </div>
@@ -105,7 +105,7 @@ const ThankYou = () => {
                   <span className="block">{billingAddress?.name}</span>
                   <span className="block">{billingAddress?.street}</span>
                   <span className="block">
-                    {billingAddress?.postalCode} {billingAddress?.city}
+                    {billingAddress?.pinCode} {billingAddress?.city}
                   </span>
                 </address>
               </div>
