@@ -87,6 +87,7 @@ model ShippingAddress {
   city        String
   country     String
   state       String
+  pinCode     String
   phoneNumber String?
   orders      Order[]
 }
@@ -98,6 +99,7 @@ model BillingAddress {
   city        String
   country     String
   state       String
+  pinCode     String
   phoneNumber String?
   orders      Order[]
 }
