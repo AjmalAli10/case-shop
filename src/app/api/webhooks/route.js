@@ -69,8 +69,8 @@ export async function POST(req) {
           console.warn(`Unhandled relevant event: ${event.type}`);
       }
     } catch (error) {
-      console.error("Webhook handler failed:", error.message);
-      return new Response(`Webhook handler failed: ${error.message}`, {
+      console.error("Webhook handler failed:", error);
+      return new Response(`Webhook handler failed: ${error}`, {
         status: 400,
       });
     }
