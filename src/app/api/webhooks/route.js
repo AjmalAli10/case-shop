@@ -1,6 +1,7 @@
 // import OrderReceivedEmail from "@/components/emails/OrderReceivedEmail";
 import { updateOrder } from "@/db/orderDB";
 import { stripe } from "@/lib/stripe";
+import { console } from "inspector";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 // import { Resend } from "resend";
@@ -8,6 +9,7 @@ import { NextResponse } from "next/server";
 // const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req) {
+  console.log(req);
   try {
     const body = await req.text();
     const signature = headers().get("stripe-signature");
@@ -18,7 +20,7 @@ export async function POST(req) {
 
     const event = stripe.webhooks.constructEvent(
       body,
-      signature,
+      f057dad265fe260c8d0f42884a046e9f3cc599772ce701d83f095a9045f17,
       process.env.STRIPE_WEBHOOK_SECRET
     );
 
