@@ -34,7 +34,7 @@ import { useRouter } from "next/navigation";
 const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
   const { toast } = useToast();
   const router = useRouter();
-  const { mutate: saveConfig } = useMutation({
+  const { mutate: saveConfig, isPending } = useMutation({
     mutationKey: ["save-config"],
     mutationFn: async (args) => {
       return await Promise.all([saveConfiguration(), _saveConfig(args)]);
@@ -142,6 +142,10 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
             className="pointer-events-none relative z-50 aspect-[896/1831] w-full"
           >
             <NextImage
+              style={{ objectFit: "contain" }}
+              placeholder="blur"
+              blurDataURL="data:image/png;base64/phone-template.png"
+              priority
               fill
               alt="phone image"
               src={"/phone-template.png"}
@@ -160,8 +164,8 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
           default={{
             width: imageDimensions.width / 4,
             height: imageDimensions.height / 4,
-            x: 150,
-            y: 205,
+            x: 200,
+            y: 200,
           }}
           onResizeStop={(_, __, ElementRef, ____, { x, y }) => {
             setRenderedImageDimensions({
@@ -184,6 +188,10 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
         >
           <div className="relative w-full h-full">
             <NextImage
+              placeholder="blur"
+              blurDataURL={`data:image/png;base64/${imageUrl}`}
+              priority
+              style={{ objectFit: "contain" }}
               src={imageUrl}
               fill
               alt="your image"
@@ -358,13 +366,13 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
               <div className="w-full flex gap-6 items-center">
                 <p className="font-medium whitespace-nowrap mt-16">
                   {formatPrice(
-                    (BASE_PRICE +
-                      options.finish.price +
-                      options.material.price) /
-                      100
+                    BASE_PRICE + options.finish.price + options.material.price
                   )}
                 </p>{" "}
                 <Button
+                  isLoading={isPending}
+                  disabled={isPending}
+                  loadingText="Saving"
                   onClick={() =>
                     saveConfig({
                       configId,

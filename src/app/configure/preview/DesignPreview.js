@@ -53,7 +53,7 @@ const DesignPreview = ({ configuration }) => {
     totalPrice += PRODUCT_PRICES.material.polycarbonate;
   if (finish === "textured") totalPrice += PRODUCT_PRICES.finish.textured;
 
-  const { mutate: createPaymentSession } = useMutation({
+  const { mutate: createPaymentSession, isPending } = useMutation({
     mutationKey: ["get-checkout-session"],
     mutationFn: createCheckoutSession,
     onSuccess: async ({ url }) => {
@@ -139,14 +139,14 @@ const DesignPreview = ({ configuration }) => {
                 <div className="flex items-center justify-between py-1 mt-2">
                   <p className="text-gray-600">Base price</p>
                   <p className="font-medium text-gray-900">
-                    {formatPrice(BASE_PRICE / 100)}
+                    {formatPrice(BASE_PRICE)}
                   </p>
                 </div>
                 {finish === "textured" ? (
                   <div className="flex items-center justify-between py-1 mt-2">
                     <p className="text-gray-600">Textured finish</p>
                     <p className="font-medium text-gray-900">
-                      {formatPrice(PRODUCT_PRICES.finish.textured / 100)}
+                      {formatPrice(PRODUCT_PRICES.finish.textured)}
                     </p>
                   </div>
                 ) : null}
@@ -155,7 +155,7 @@ const DesignPreview = ({ configuration }) => {
                   <div className="flex items-center justify-between py-1 mt-2">
                     <p className="text-gray-600">Soft polycarbonate material</p>
                     <p className="font-medium text-gray-900">
-                      {formatPrice(PRODUCT_PRICES.material.polycarbonate / 100)}
+                      {formatPrice(PRODUCT_PRICES.material.polycarbonate)}
                     </p>
                   </div>
                 ) : null}
@@ -165,16 +165,16 @@ const DesignPreview = ({ configuration }) => {
                 <div className="flex items-center justify-between py-2">
                   <p className="font-semibold text-gray-900">Order total</p>
                   <p className="font-semibold text-gray-900">
-                    {formatPrice(totalPrice / 100)}
+                    {formatPrice(totalPrice)}
                   </p>
                 </div>
               </div>
             </div>
             <div className="mt-8 flex justify-end pb-12">
               <Button
-                // disabled={true}
-                // isLoading={true}
-                // loadingText="loading"
+                disabled={isPending}
+                isLoading={isPending}
+                loadingText="loading"
                 onClick={handleCheckout}
                 className="px-4 sm:px-6 lg:px-8"
               >

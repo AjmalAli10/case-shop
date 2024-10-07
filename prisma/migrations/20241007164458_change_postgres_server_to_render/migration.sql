@@ -1,14 +1,17 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Image` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "OrderStatus" AS ENUM ('fulfilled', 'shipped', 'awaiting_shipment');
 
--- DropTable
-DROP TABLE "Image";
+-- CreateEnum
+CREATE TYPE "PhoneModel" AS ENUM ('iphonex', 'iphone11', 'iphone12', 'iphone13', 'iphone14', 'iphone15');
+
+-- CreateEnum
+CREATE TYPE "CaseMaterial" AS ENUM ('silicone', 'polycarbonate');
+
+-- CreateEnum
+CREATE TYPE "CaseFinish" AS ENUM ('smooth', 'textured');
+
+-- CreateEnum
+CREATE TYPE "CaseColor" AS ENUM ('black', 'blue', 'rose');
 
 -- CreateTable
 CREATE TABLE "Configuration" (
@@ -60,6 +63,7 @@ CREATE TABLE "ShippingAddress" (
     "city" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "state" TEXT NOT NULL,
+    "pinCode" TEXT NOT NULL,
     "phoneNumber" TEXT,
 
     CONSTRAINT "ShippingAddress_pkey" PRIMARY KEY ("id")
@@ -73,6 +77,7 @@ CREATE TABLE "BillingAddress" (
     "city" TEXT NOT NULL,
     "country" TEXT NOT NULL,
     "state" TEXT NOT NULL,
+    "pinCode" TEXT NOT NULL,
     "phoneNumber" TEXT,
 
     CONSTRAINT "BillingAddress_pkey" PRIMARY KEY ("id")

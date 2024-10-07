@@ -3,6 +3,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const STEPS = [
@@ -53,7 +54,11 @@ const Steps = () => {
                 )}
               >
                 <span className="flex-shrink-0">
-                  <img
+                  <Image
+                    width={40}
+                    height={40}
+                    placeholder="blur"
+                    blurDataURL={`data:image/png;base64/${imgPath}`}
                     src={imgPath}
                     className={cn(
                       "flex h-20 w-20 object-contain items-center justify-center",
