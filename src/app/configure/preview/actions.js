@@ -74,7 +74,7 @@ export const createCheckoutSession = async ({ configId }) => {
     images: [configuration.imageUrl],
     default_price_data: {
       currency: "INR",
-      unit_amount: price,
+      unit_amount: price * 100,
     },
   });
 

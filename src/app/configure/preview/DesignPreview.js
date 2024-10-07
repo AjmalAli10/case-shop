@@ -57,7 +57,7 @@ const DesignPreview = ({ configuration }) => {
       // if (paymentSessionId) {
       //   await doPayment({ paymentSessionId: paymentSessionId });
       // }
-      if (url) router.push(url);
+      if (url) router.replace(url);
       else throw new Error("Unable to retrieve payment URL.");
     },
     onError: (e) => {

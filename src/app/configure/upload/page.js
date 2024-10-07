@@ -26,6 +26,13 @@ const Page = () => {
     onUploadProgress: (progress) => {
       setUploadProgress(progress);
     },
+    onUploadError: () => {
+      toast({
+        title: "Upload failed",
+        description: "File size exceeds 4MB limit",
+        variant: "destructive",
+      });
+    },
   });
   const onDropRejected = (rejectedFiles = []) => {
     const [file] = rejectedFiles;
