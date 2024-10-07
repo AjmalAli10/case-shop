@@ -12,10 +12,7 @@ try {
   console.error("Failed to initialize Stripe:", err.message);
 }
 
-const relevantEvents = new Set([
-  "checkout.session.completed",
-  // Add other relevant event types here
-]);
+const relevantEvents = new Set(["checkout.session.completed"]);
 
 export async function POST(req) {
   if (!stripe) {
@@ -61,8 +58,6 @@ export async function POST(req) {
           const shippingAddress = session.shipping_details.address;
 
           await updateOrder(orderId, session, shippingAddress, billingAddress);
-          console.log("Checkout completed:", session.id);
-          // Add your business logic here
           break;
 
         default:

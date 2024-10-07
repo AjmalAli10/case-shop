@@ -4,7 +4,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { createUser } from "@/db/userDB";
-
+import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
 const NavBar = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -53,7 +53,15 @@ const NavBar = async () => {
               </>
             ) : (
               <>
-                <Link
+                <RegisterLink
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "ghost",
+                  })}
+                >
+                  Sign up
+                </RegisterLink>
+                {/* <Link
                   href={"/api/auth/register"}
                   className={buttonVariants({
                     size: "sm",
@@ -61,8 +69,16 @@ const NavBar = async () => {
                   })}
                 >
                   Sign up
-                </Link>
-                <Link
+                </Link> */}
+                <LoginLink
+                  className={buttonVariants({
+                    size: "sm",
+                    variant: "ghost",
+                  })}
+                >
+                  Login
+                </LoginLink>
+                {/* <Link
                   href={"/api/auth/login"}
                   className={buttonVariants({
                     size: "sm",
@@ -70,7 +86,7 @@ const NavBar = async () => {
                   })}
                 >
                   login
-                </Link>
+                </Link> */}
                 <div className=" h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Link
                   href={"/configure/upload"}

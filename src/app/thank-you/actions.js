@@ -12,10 +12,11 @@ export const getPaymentStatus = async ({ orderId }) => {
 
   const order = await getOrdersByUserAndOrderId(user.id, orderId);
 
+  console.log("order", order);
   if (!order) throw new Error("This order does not exist.");
   console.log(order);
-  if (order.isPaid) {
-    return order;
+  if (order[0].isPaid) {
+    return order[0];
   } else {
     return false;
   }
