@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import Stripe from "stripe";
 import { headers } from "next/headers";
 import { updateOrder } from "@/db/orderDB";
+import { Resend } from "resend";
+import OrderReceivedEmail from "@/components/email/OrderReceivedEmail";
 
 let stripe;
 try {
@@ -14,6 +16,7 @@ try {
 
 const relevantEvents = new Set(["checkout.session.completed"]);
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req) {
   if (!stripe) {
     console.error("Stripe is not initialized");
@@ -57,7 +60,30 @@ export async function POST(req) {
           const billingAddress = session.customer_details.address;
           const shippingAddress = session.shipping_details.address;
 
-          await updateOrder(orderId, session, shippingAddress, billingAddress);
+          const updatedOrder = await updateOrder(
+            orderId,
+            session,
+            shippingAddress,
+            billingAddress
+          );
+
+          await resend.emails.send({
+            from: "CaseShop <ajmalali10a.aa@gmail.com>",
+            to: [event.data.object.customer_details.email],
+            subject: "Thanks for your order!",
+            react: OrderReceivedEmail({
+              orderId,
+              orderDate: updatedOrder.createdAt.toLocaleDateString(),
+              shippingAddress: {
+                name: session.customer_details.name,
+                city: shippingAddress.city,
+                country: shippingAddress.country,
+                pinCode: shippingAddress.postal_code,
+                street: shippingAddress?.line1 ?? shippingAddress?.line2,
+                state: shippingAddress.state,
+              },
+            }),
+          });
           break;
 
         default:

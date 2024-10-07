@@ -4,18 +4,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Recursive } from "next/font/google";
 import NavBar from "../components/NavBar";
 import "./globals.css";
+import { constructMetadata } from "@/lib/utils";
 const recursive = Recursive({ subsets: ["latin"] });
 
-export const metadata = {
-  title: "caseShop - One of a kind phone case",
-  description: "caseShop - One of a kind phone case",
-  openGraph: {
-    title: "caseShop - One of a kind phone case",
-    description: "caseShop - One of a kind phone case",
-    images: ["/case-shop.png"],
-  },
-};
-
+export const metadata = constructMetadata();
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
