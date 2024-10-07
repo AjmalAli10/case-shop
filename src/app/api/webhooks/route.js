@@ -73,7 +73,6 @@ export async function POST(req) {
         default:
           console.warn(`Unhandled relevant event: ${event.type}`);
       }
-      return NextResponse.json({ result: event, ok: true });
     } catch (error) {
       console.error("Webhook handler failed:", error.message);
       return new Response(`Webhook handler failed: ${error.message}`, {
@@ -81,4 +80,6 @@ export async function POST(req) {
       });
     }
   }
+
+  return NextResponse.json({ received: true });
 }
