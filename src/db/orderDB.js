@@ -25,7 +25,7 @@ export async function updateOrder(
   billingAddress
 ) {
   try {
-    return await prisma.order.update({
+    const updatedOrder = await prisma.order.update({
       where: {
         id: orderId,
       },
@@ -53,9 +53,11 @@ export async function updateOrder(
         },
       },
     });
+
+    return updatedOrder;
   } catch (error) {
     console.error("Error updating order:", error.message);
-    throw new Error("Failed to update order");
+    throw new Error("Failed to update order", error);
   }
 }
 export async function getExistingOrder(userId, configurationId) {
