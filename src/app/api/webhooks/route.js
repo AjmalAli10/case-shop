@@ -1,50 +1,57 @@
 import { NextResponse } from "next/server";
 import Stripe from "stripe";
+import { headers } from "next/headers";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY ?? "", {
   apiVersion: "2024-09-30.acacia",
   typescript: false,
 });
 
-const buffer = (req) => {
-  return new Promise((resolve, reject) => {
-    const chunks = [];
+const relevantEvents = new Set([
+  "checkout.session.completed",
+  // Add other relevant event types here
+]);
 
-    req.on("data", (chunk) => {
-      chunks.push(chunk);
-    });
-
-    req.on("end", () => {
-      resolve(Buffer.concat(chunks));
-    });
-
-    req.on("error", reject);
-  });
-};
 export async function POST(req) {
-  const sig = headers().get("Stripe-Signature");
+  const body = await req.text();
+  const headersList = headers();
+  const sig = headersList.get("Stripe-Signature");
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
   let event;
-  try {
-    if (!sig || !webhookSecret) return;
-    const body = await buffer(req);
 
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
+  try {
+    if (!sig || !webhookSecret) {
+      return new Response("Webhook Secret or Signature missing", {
+        status: 400,
+      });
+    }
+    event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
   } catch (err) {
-    console.log(`❌ Error message: ${err.message}`);
+    console.error(`❌ Error message: ${err.message}`);
     return new Response(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // Handle the checkout.session.completed event
-  if (event.type === "checkout.session.completed") {
-    const session = event.data.object;
+  if (relevantEvents.has(event.type)) {
+    try {
+      switch (event.type) {
+        case "checkout.session.completed":
+          const session = event.data.object;
+          // Handle the checkout.session.completed event
+          console.log("Checkout completed:", session.id);
+          // Add your business logic here
+          break;
 
-    // Fulfill the purchase...
-    console.log("SESSION: ", session);
+        // Add cases for other event types as needed
+
+        default:
+          console.warn(`Unhandled relevant event: ${event.type}`);
+      }
+    } catch (error) {
+      console.error("Webhook handler failed:", error.message);
+      return new Response(`Webhook handler failed: ${error.message}`, {
+        status: 400,
+      });
+    }
   }
 
   return NextResponse.json({ received: true });
