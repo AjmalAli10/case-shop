@@ -34,6 +34,8 @@ const Phone = ({ className, imgSrc, dark = false, ...props }) => {
           priority
           className="object-cover"
           src={imgSrc}
+          placeholder="blur"
+          blurDataURL={`data:image/png;base64/${imgSrc}`}
           alt="overlaying phone image"
         />
       </div>

@@ -80,12 +80,18 @@ module.exports = {
             opacity: "1",
           },
         },
+        shiver: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "25%": { transform: "translateX(-2px)" },
+          "75%": { transform: "translateX(2px)" },
+        },
       },
       animation: {
         "marquee-vertical":
           "marquee-vertical var(--marquee-duration) linear infinite",
         "fade-in": "fade-in 0.5s linear forwards",
         flashing: "flashing 1.4s infinite linear",
+        shiver: "shiver 0.5s ease-in-out infinite",
       },
     },
   },

@@ -1,31 +1,28 @@
 "use client";
 
+import LoginModal from "@/components/LoginModal";
 import Phone from "@/components/Phone";
 import { Button } from "@/components/ui/button";
 import { BASE_PRICE, PRODUCT_PRICES } from "@/config/products";
+import { useToast } from "@/hooks/use-toast";
 import { cn, formatPrice } from "@/lib/utils";
 import { COLORS, MODELS } from "@/validators/option-validator";
-import { ArrowRight } from "lucide-react";
-import { Check } from "lucide-react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { createCheckoutSession } from "./actions";
-import { useToast } from "@/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import LoginModal from "@/components/LoginModal";
-import { useRef } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { ArrowRight, Check } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { createCheckoutSession } from "./actions";
 const { default: Confetti } = require("react-dom-confetti");
 
 const DesignPreview = ({ configuration }) => {
   const { toast } = useToast();
   const router = useRouter();
   const [showConfetti, setShowConfetti] = useState(false);
-  const { user } = useKindeBrowserClient();
+  const { user, isLoading } = useKindeBrowserClient();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   // const sdkInitialized = useRef(false);
-  useEffect(() => setShowConfetti(true), [showConfetti]);
+  useEffect(() => setShowConfetti(true), []);
 
   //TODO: i will add this when using cashfree
   // useEffect(() => {
@@ -73,6 +70,7 @@ const DesignPreview = ({ configuration }) => {
     },
   });
   const handleCheckout = () => {
+    if (isLoading) return;
     if (user) {
       // create payment session
       createPaymentSession({ configId: id });

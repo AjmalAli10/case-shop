@@ -8,6 +8,8 @@ import {
   RegisterLink,
   LogoutLink,
 } from "@kinde-oss/kinde-auth-nextjs/server";
+import Image from "next/image";
+import ShiverCreateCase from "./ShiverCreateCase";
 
 const NavBar = async () => {
   const { getUser } = getKindeServerSession();
@@ -87,6 +89,7 @@ const NavBar = async () => {
             )}
           </div>
         </div>
+        <ShiverCreateCase />
       </MaxWidthWrapper>
     </nav>
   );
