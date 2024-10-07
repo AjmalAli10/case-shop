@@ -2,9 +2,13 @@ import Link from "next/link";
 import MaxWidthWrapper from "./MaxWidthWrapper";
 import { buttonVariants } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { createUser } from "@/db/userDB";
-import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs";
+import {
+  getKindeServerSession,
+  LoginLink,
+  RegisterLink,
+  LogoutLink,
+} from "@kinde-oss/kinde-auth-nextjs/server";
+
 const NavBar = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
@@ -20,15 +24,14 @@ const NavBar = async () => {
           <div className=" h-full flex items-center space-x-4">
             {user ? (
               <>
-                <Link
-                  href={"/api/auth/logout"}
+                <LogoutLink
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
                   })}
                 >
                   Sign out
-                </Link>
+                </LogoutLink>
                 {isAdmin ? (
                   <Link
                     href={"/api/auth/signout"}
@@ -61,15 +64,6 @@ const NavBar = async () => {
                 >
                   Sign up
                 </RegisterLink>
-                {/* <Link
-                  href={"/api/auth/register"}
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                  })}
-                >
-                  Sign up
-                </Link> */}
                 <LoginLink
                   className={buttonVariants({
                     size: "sm",
@@ -78,15 +72,6 @@ const NavBar = async () => {
                 >
                   Login
                 </LoginLink>
-                {/* <Link
-                  href={"/api/auth/login"}
-                  className={buttonVariants({
-                    size: "sm",
-                    variant: "ghost",
-                  })}
-                >
-                  login
-                </Link> */}
                 <div className=" h-8 w-px bg-zinc-200 hidden sm:block" />
                 <Link
                   href={"/configure/upload"}
