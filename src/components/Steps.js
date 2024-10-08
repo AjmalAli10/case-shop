@@ -55,10 +55,10 @@ const Steps = () => {
               >
                 <span className="flex-shrink-0">
                   <Image
-                    width={40}
-                    height={40}
-                    placeholder="blur"
-                    blurDataURL={`data:image/png;base64/${imgPath}`}
+                    alt="step icon"
+                    priority={i === 0}
+                    width={80}
+                    height={80}
                     src={imgPath}
                     className={cn(
                       "flex h-20 w-20 object-contain items-center justify-center",
