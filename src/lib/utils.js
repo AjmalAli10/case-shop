@@ -41,6 +41,5 @@ export function constructMetadata({
     },
     icons,
     metadataBase: new URL("https://case-shop-rouge.vercel.app/"),
-    themeColor: "#FFF",
   };
 }
