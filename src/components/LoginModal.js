@@ -11,8 +11,8 @@ import { buttonVariants } from "./ui/button";
 
 const LoginModal = ({ isOpen, setIsOpen }) => {
   return (
-    <Dialog onOpenChange={setIsOpen} open={isOpen}>
-      <DialogContent className="absolute z-[9999999]">
+    <Dialog onOpenChange={setIsOpen} open={isOpen} className="relative">
+      <DialogContent className="fixed z-[9999999] top-[26%]">
         <DialogHeader>
           <div className="relative mx-auto w-24 h-24 mb-2">
             <Image
