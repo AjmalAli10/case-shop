@@ -7,9 +7,9 @@ import { useUploadThing } from "@/lib/uploadThing";
 import { cn } from "@/lib/utils";
 import { Loader2, Image, MousePointerSquareDashed } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-import { useState } from "react";
+import { useTransition, useState } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
+
 const Page = () => {
   const { toast } = useToast();
   const [isDragOver, setIsDragOver] = useState(false);

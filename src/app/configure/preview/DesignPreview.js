@@ -135,14 +135,14 @@ const DesignPreview = ({ configuration }) => {
             <div className="bg-gray-50 p-6 sm:rounded-lg sm:p-8">
               <div className="flow-root text-sm">
                 <div className="flex items-center justify-between py-1 mt-2">
-                  <p className="text-gray-600">Base price</p>
+                  <p className="text-gray-700">Base price</p>
                   <p className="font-medium text-gray-900">
                     {formatPrice(BASE_PRICE)}
                   </p>
                 </div>
                 {finish === "textured" ? (
                   <div className="flex items-center justify-between py-1 mt-2">
-                    <p className="text-gray-600">Textured finish</p>
+                    <p className="text-gray-700">Textured finish</p>
                     <p className="font-medium text-gray-900">
                       {formatPrice(PRODUCT_PRICES.finish.textured)}
                     </p>
@@ -151,7 +151,7 @@ const DesignPreview = ({ configuration }) => {
 
                 {material === "polycarbonate" ? (
                   <div className="flex items-center justify-between py-1 mt-2">
-                    <p className="text-gray-600">Soft polycarbonate material</p>
+                    <p className="text-gray-700">Soft polycarbonate material</p>
                     <p className="font-medium text-gray-900">
                       {formatPrice(PRODUCT_PRICES.material.polycarbonate)}
                     </p>

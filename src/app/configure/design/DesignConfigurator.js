@@ -147,6 +147,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
               blurDataURL="data:image/png;base64/phone-template.png"
               priority
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt="phone image"
               src={"/phone-template.png"}
               className="pointer-events-none z-50 select-none"
@@ -194,6 +195,7 @@ const DesignConfigurator = ({ configId, imageUrl, imageDimensions }) => {
               style={{ objectFit: "contain" }}
               src={imageUrl}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
               alt="your image"
               className="pointer-events-none"
             />

@@ -5,7 +5,11 @@ import { Recursive } from "next/font/google";
 import NavBar from "../components/NavBar";
 import "./globals.css";
 import { constructMetadata } from "@/lib/utils";
-const recursive = Recursive({ subsets: ["latin"] });
+const recursive = Recursive({
+  subsets: ["latin"],
+  display: "swap",
+  preload: true,
+});
 
 export const metadata = constructMetadata();
 export default function RootLayout({ children }) {

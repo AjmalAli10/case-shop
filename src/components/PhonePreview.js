@@ -52,6 +52,7 @@ const PhonePreview = ({ croppedImageUrl, color }) => {
             caseBackgroundColor
           )}
           src={croppedImageUrl}
+          alt="Custom phone case preview"
         />
       </div>
 

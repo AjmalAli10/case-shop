@@ -20,6 +20,7 @@ const LoginModal = ({ isOpen, setIsOpen }) => {
               alt="snake image"
               className="object-contain"
               fill
+              sizes="96px"
             />
           </div>
           <DialogTitle className="text-3xl text-center font-bold tracking-tight text-gray-900">

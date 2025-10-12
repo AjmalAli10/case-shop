@@ -1,23 +1,37 @@
 import prisma from "./prismaClient";
 
-// Create a new image
-export async function createImage(imageData) {
+// Create a new image with retry logic
+export async function createImage(imageData, retries = 3) {
   const { imageUrl, height, width } = imageData;
 
-  try {
-    const newImage = await prisma.configuration.create({
-      // Changed to prisma.image
-      data: {
-        imageUrl,
-        height,
-        width,
-        croppedImageUrl: null, // or provide a value if needed
-      },
-    });
-    return newImage;
-  } catch (error) {
-    console.error("Error creating image:", error.message);
-    throw new Error("Failed to create image");
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    try {
+      const newImage = await prisma.configuration.create({
+        data: {
+          imageUrl,
+          height,
+          width,
+          croppedImageUrl: null,
+        },
+      });
+      return newImage;
+    } catch (error) {
+      console.error(
+        `Error creating image (attempt ${attempt}/${retries}):`,
+        error.message
+      );
+
+      if (attempt === retries) {
+        throw new Error(
+          `Failed to create image after ${retries} attempts: ${error.message}`
+        );
+      }
+
+      // Wait before retrying (exponential backoff)
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.pow(2, attempt) * 1000)
+      );
+    }
   }
 }
 

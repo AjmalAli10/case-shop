@@ -12,11 +12,11 @@ const ShiverCreateCase = () => {
     <div className="sm:hidden mt-2 px-4 relative">
       <Image
         alt="arrow"
-        width={65}
-        height={65}
+        width={16}
+        height={16}
         priority
         src="/arrow.png"
-        className="absolute top-[1.2rem] -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0 h-4"
+        className="absolute top-[1.2rem] -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"
       />
       <div className="flex items-center justify-center pt-12">
         <Link

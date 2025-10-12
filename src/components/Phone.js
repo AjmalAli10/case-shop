@@ -30,6 +30,7 @@ const Phone = ({ className, imgSrc, dark = false, ...props }) => {
       <div className=" absolute -z-10 inset-0">
         <Image
           fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           style={{ objectFit: "contain" }}
           priority
           className="object-cover"

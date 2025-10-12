@@ -37,20 +37,18 @@ export default function Home() {
               </p>
 
               <ul className=" mt-8 space-y-2 text-left font-medium flex flex-col items-center sm:items-start">
-                <div className=" space-y-2">
-                  <li className="flex gap-1.5 items-center text-left">
-                    <Check className=" h-5 w-5 shrink-0 text-orange-500" />
-                    High-quality, durable material
-                  </li>
-                  <li className="flex gap-1.5 items-center text-left">
-                    <Check className=" h-5 w-5 shrink-0 text-orange-500" />5
-                    year print guarantee
-                  </li>
-                  <li className="flex gap-1.5 items-center text-left">
-                    <Check className=" h-5 w-5 shrink-0 text-orange-500" />
-                    Modern iPhone models supported
-                  </li>
-                </div>
+                <li className="flex gap-1.5 items-center text-left">
+                  <Check className=" h-5 w-5 shrink-0 text-orange-500" />
+                  High-quality, durable material
+                </li>
+                <li className="flex gap-1.5 items-center text-left">
+                  <Check className=" h-5 w-5 shrink-0 text-orange-500" />5 year
+                  print guarantee
+                </li>
+                <li className="flex gap-1.5 items-center text-left">
+                  <Check className=" h-5 w-5 shrink-0 text-orange-500" />
+                  Modern iPhone models supported
+                </li>
               </ul>
               <div className="mt-12 flex flex-col sm:flow-row items-center sm:items-start gap-5">
                 <div className="flex -space-x-4">
@@ -163,7 +161,7 @@ export default function Home() {
                 />
                 <div className="flex flex-col">
                   <p className="font-semibold">Jonathan</p>
-                  <div className="flex gap-1.5 items-center text-zinc-600">
+                  <div className="flex gap-1.5 items-center text-zinc-700">
                     <Check className="h-4 w-4 stroke-[3px] text-green-600" />
                     <p className="text-sm">Verified Purchase</p>
                   </div>
@@ -200,7 +198,7 @@ export default function Home() {
                 />
                 <div className="flex flex-col">
                   <p className="font-semibold">Ali</p>
-                  <div className="flex gap-1.5 items-center text-zinc-600">
+                  <div className="flex gap-1.5 items-center text-zinc-700">
                     <Check className="h-4 w-4 stroke-[3px] text-green-600" />
                     <p className="text-sm">Verified Purchase</p>
                   </div>
@@ -232,13 +230,17 @@ export default function Home() {
             <div className="relative flex flex-col items-center md:grid grid-cols-2 gap-40">
               <img
                 src="/arrow.png"
+                width="24"
+                height="24"
                 className="absolute top-[25rem] md:top-1/2 -translate-y-1/2 z-10 left-1/2 -translate-x-1/2 rotate-90 md:rotate-0"
+                alt="Arrow pointing to phone case"
               />
 
               <div className="relative h-80 md:h-full w-full md:justify-self-end max-w-sm rounded-xl bg-gray-900/5 ring-inset ring-gray-900/10 lg:rounded-2xl">
                 <img
                   src="/horse.jpg"
-                  className="rounded-md object-cover bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
+                  className="rounded-md object-contain bg-white shadow-2xl ring-1 ring-gray-900/10 h-full w-full"
+                  alt="Horse image for custom phone case"
                 />
               </div>
 
@@ -263,19 +265,19 @@ export default function Home() {
               <Check className="h-5 w-5 text-orange-500 inline mr-1.5" />5 year
               print warranty
             </li>
-
-            <div className="flex justify-center">
-              <Link
-                className={buttonVariants({
-                  size: "lg",
-                  className: "mx-auto mt-8",
-                })}
-                href="/configure/upload"
-              >
-                Create your case now <ArrowRight className="h-4 w-4 ml-1.5" />
-              </Link>
-            </div>
           </ul>
+
+          <div className="flex justify-center">
+            <Link
+              className={buttonVariants({
+                size: "lg",
+                className: "mx-auto mt-8",
+              })}
+              href="/configure/upload"
+            >
+              Create your case now <ArrowRight className="h-4 w-4 ml-1.5" />
+            </Link>
+          </div>
         </MaxWidthWrapper>
       </section>
     </div>

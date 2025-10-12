@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Critical CSS for above-the-fold content */
+@layer base {
+  html {
+    font-display: swap;
+  }
+  
+  body {
+    font-display: swap;
+  }
+}
+
 
 @layer base {
   :root {
